@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 class Map extends Component {
   componentDidMount = () => {
     this.injectGoogleMapsScript();
-    // this.initMap();
   };
 
   injectGoogleMapsScript = () => {
