@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 class Map extends Component {
   componentWillMount = () => {
-    this.injectGoogleMapsScript();
+    this.initializeWindow();
   };
   componentDidMount = () => {
     this.initMap();
@@ -18,7 +18,10 @@ class Map extends Component {
     script.src = source;
     script.async = true;
     script.defer = true;
+  };
 
+  initializeWindow = () => {
+    this.injectGoogleMapsScript();
     window.initMap = this.initMap;
   };
 
