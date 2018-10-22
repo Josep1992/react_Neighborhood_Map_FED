@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 
 class Map extends Component {
-  componentDidMount = () => {
+  componentWillMount = () => {
     this.injectGoogleMapsScript();
+  };
+  componentDidMount = () => {
+    this.initMap();
   };
 
   injectGoogleMapsScript = () => {
@@ -14,17 +17,19 @@ class Map extends Component {
     let script = document.querySelector('script');
     script.src = source;
     script.async = true;
+    script.defer = true;
+
+    window.initMap = this.initMap;
   };
 
   initMap = () => {
-    let map;
-    map = new window.google.maps.Map(document.getElementById('map'), {
+    const map = new window.google.maps.Map(document.getElementById('map'), {
       center: { lat: -34.397, lng: 150.644 },
       zoom: 8,
     });
   };
   render() {
-    return <div id="map" />;
+    return <div role="application" id="map" />;
   }
 }
 
