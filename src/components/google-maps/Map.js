@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 
 class Map extends Component {
+  state = {
+    apiKey: 'AIzaSyCNYw-grWNRMrfIxpHpGzCFpd7mLX4k4Oo',
+    googleEndpoint: `https://maps.googleapis.com/maps/api/js?key=${
+      this.state.apiKey
+    }&callback=initMap`,
+  };
   componentDidMount = () => {
     this.initializeWindow()
       .then((google) => console.log(`${google}`))
@@ -8,14 +14,11 @@ class Map extends Component {
   };
 
   injectGoogleMapsScript = () => {
-    // key from the google maps api
-    const key = 'AIzaSyCNYw-grWNRMrfIxpHpGzCFpd7mLX4k4Oo';
-    // script src for injecting once the dom has loaded
-    const source = `https://maps.googleapis.com/maps/api/js?key=${key}&callback=initMap`;
+    const { googleEndpoint } = this.state;
     const body = document.body;
 
     let googleMapScript = document.createElement('script');
-    googleMapScript.src = source;
+    googleMapScript.src = googleEndpoint;
     // The script must be async, it will be added to the dom once every elements is on the page.**
     googleMapScript.async = true;
     googleMapScript.defer = true;
