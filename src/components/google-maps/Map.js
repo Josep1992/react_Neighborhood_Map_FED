@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Map extends Component {
   componentDidMount = () => {
     this.initializeWindow()
-      .then((google) => console.log(`${google} in window`))
+      .then((google) => console.log(`${google}`))
       .catch((error) => console.log({ error }));
   };
 
