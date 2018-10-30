@@ -1,9 +1,9 @@
 // Array for the map markers
 export const pointers = [
   {
-    lat: 18.4927046,
-    lng: -66.6415858,
-    title: 'Cueva de el Indio',
+    lat: 18.2564712,
+    lng: -66.3902196,
+    title: 'Toro Verde Nature Adventure Park',
   },
   {
     lat: 18.481861,
@@ -11,14 +11,14 @@ export const pointers = [
     title: 'Arecibo Light House',
   },
   {
-    lat: 18.452424,
-    lng: -66.5970011,
-    title: 'Bosque Cambalache',
+    lat: 18.3592186,
+    lng: -66.5092752,
+    title: 'Cueva de las Golondrinas',
   },
   {
     lat: 18.4769675,
-    lng: -66.5067307,
-    title: 'Poza de las Mujeres',
+    lng: -66.9851909,
+    title: 'Gozalandia Hiking',
   },
   {
     lat: 18.4838933,

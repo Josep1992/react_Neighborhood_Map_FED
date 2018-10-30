@@ -47,7 +47,7 @@ class App extends Component {
     let map;
     map = new window.google.maps.Map(document.getElementById('map'), {
       center: { lat: 18.4065425, lng: -66.59379249999999 },
-      zoom: 12,
+      zoom: 11,
     });
 
     //Iterate over the pointers array to create the markers
@@ -58,6 +58,8 @@ class App extends Component {
         title: pointer.title,
         animation: window.google.maps.Animation.DROP,
       });
+
+      marker.addListener('click', () => console.log('clicked'));
 
       this.state.markers.push(marker);
     });
