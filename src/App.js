@@ -59,7 +59,11 @@ class App extends Component {
         animation: window.google.maps.Animation.DROP,
       });
 
-      marker.addListener('click', () => console.log('clicked'));
+      const infoWindow = new window.google.maps.InfoWindow({
+        content: pointer.title,
+      });
+
+      marker.addListener('click', () => infoWindow.open(map, marker));
 
       this.state.markers.push(marker);
     });
