@@ -8,6 +8,7 @@ import { pointers } from '../src/utilities/pointers';
 class App extends Component {
   state = {
     apiKey: 'AIzaSyACQXnOUxt3FifE9oexqADC8OMmB74ms_Q',
+    markers: [],
   };
   componentDidMount = () => {
     this.initializeWindow()
@@ -44,27 +45,24 @@ class App extends Component {
 
   initMap = () => {
     let map;
-    let markers;
     map = new window.google.maps.Map(document.getElementById('map'), {
-      center: { lat: -66.5878767, lng: 18.4058278 },
-      zoom: 9,
+      center: { lat: 18.4065425, lng: -66.59379249999999 },
+      zoom: 12,
     });
 
-    // Iterate over the pointers array to create the markers
-    markers = pointers.map((pointer) => {
-      return new window.google.maps.Marker({
-        position: { lat: Number(pointer.lat), lng: Number(pointer.lng) },
+    //Iterate over the pointers array to create the markers
+    pointers.forEach((pointer) => {
+      let marker = new window.google.maps.Marker({
+        position: { lat: pointer.lat, lng: pointer.lng },
         map: map,
         title: pointer.title,
         animation: window.google.maps.Animation.DROP,
       });
-    });
 
-    return {
-      map,
-      markers,
-    };
+      this.state.markers.push(marker);
+    });
   };
+
   render() {
     return (
       <Fragment>
