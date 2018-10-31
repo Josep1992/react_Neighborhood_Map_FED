@@ -8,16 +8,14 @@ import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import { faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 import escapeRegExp from 'escape-string-regexp';
-import sortBy from 'sort-by';
 
-const styles = (theme) => ({
+const styles = () => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
   },
   textField: {
     margin: '0 auto',
-    width: '100%',
   },
   dense: {
     marginTop: 19,
@@ -79,7 +77,7 @@ class Sidebar extends Component {
                 </Avatar>
                 <ListItemText
                   primary={`${item.title}`}
-                  secondary={`Latitude: ${item.lat} Longitude${item.lng}`}
+                  secondary={`Latitude: ${item.lat} Longitude: ${item.lng}`}
                 />
               </ListItem>
               <Divider />
