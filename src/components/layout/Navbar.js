@@ -14,16 +14,13 @@ const styles = {
   },
 };
 
-const Navbar = (props) => {
-  const { classes, tagline, onHandleToggle } = props;
-
+const Navbar = ({ classes, tagline }) => {
   return (
     <div className={classes.root}>
       <AppBar position="static" color={classes.color}>
         <Toolbar>
           <Typography variant="h6" color="inherit">
-            <FontAwesomeIcon icon={faBars} onChange={onHandleToggle} />{' '}
-            {` ${tagline}`}
+            <FontAwesomeIcon icon={faBars} /> {` ${tagline}`}
           </Typography>
         </Toolbar>
       </AppBar>

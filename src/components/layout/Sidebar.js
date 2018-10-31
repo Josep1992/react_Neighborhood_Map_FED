@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,12 +7,13 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import { faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
+import escapeRegExp from 'escape-string-regexp';
+import sortBy from 'sort-by';
 
 const styles = (theme) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    textAlign: 'center',
   },
   textField: {
     margin: '0 auto',
@@ -37,6 +37,18 @@ class Sidebar extends Component {
   };
 
   render() {
+    const { query } = this.state;
+    let filteredMarkers;
+
+    if (query) {
+      const match = new RegExp(escapeRegExp(query), 'i');
+      filteredMarkers = this.props.pointers.filter((marker) =>
+        match.test(marker.title),
+      );
+    } else {
+      filteredMarkers = this.props.pointers;
+    }
+
     return (
       <div
         className={styles.container}
@@ -52,19 +64,14 @@ class Sidebar extends Component {
           opacity: 0.8,
         }}>
         <TextField
-          value={this.state.query}
           onChange={(e) => this.handleChange(e.target.value)}
           classes={styles.textField}
           placeholder="Filter Pointers"
-          margin="normal"
         />
         <br />
-        <Button variant="contained" color="primary">
-          Search
-        </Button>
 
         <List>
-          {this.props.pointers.map((item, index) => (
+          {filteredMarkers.map((item, index) => (
             <div key={index}>
               <ListItem>
                 <Avatar>
