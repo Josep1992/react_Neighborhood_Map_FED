@@ -4,6 +4,8 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const styles = {
   root: {
@@ -13,14 +15,15 @@ const styles = {
 };
 
 const Navbar = (props) => {
-  const { classes, tagline } = props;
+  const { classes, tagline, onHandleToggle } = props;
 
   return (
     <div className={classes.root}>
       <AppBar position="static" color={classes.color}>
         <Toolbar>
           <Typography variant="h6" color="inherit">
-            {tagline}
+            <FontAwesomeIcon icon={faBars} onChange={onHandleToggle} />{' '}
+            {` ${tagline}`}
           </Typography>
         </Toolbar>
       </AppBar>

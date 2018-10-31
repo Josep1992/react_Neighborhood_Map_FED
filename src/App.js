@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import Navbar from './components/layout/Navbar';
+import SideBar from './components/layout/Sidebar';
 import Map from './components/google-maps/Map';
 import './App.scss';
 
@@ -8,7 +9,8 @@ import { pointers } from '../src/utilities/pointers';
 class App extends Component {
   state = {
     apiKey: 'AIzaSyACQXnOUxt3FifE9oexqADC8OMmB74ms_Q',
-    markers: [],
+    markers: pointers,
+    toggle: false,
   };
   componentDidMount = () => {
     this.initializeWindow()
@@ -51,7 +53,7 @@ class App extends Component {
     });
 
     //Iterate over the pointers array to create the markers
-    pointers.forEach((pointer) => {
+    this.state.markers.forEach((pointer) => {
       let marker = new window.google.maps.Marker({
         position: { lat: pointer.lat, lng: pointer.lng },
         map: map,
@@ -64,15 +66,25 @@ class App extends Component {
       });
 
       marker.addListener('click', () => infoWindow.open(map, marker));
+    });
+  };
 
-      this.state.markers.push(marker);
+  toggleSideBar = () => {
+    /* this method will display and hide the sidebar 
+    when the hamburger icon on the navbar is clicked*/
+    this.setState({
+      toggle: !this.state.toggle,
     });
   };
 
   render() {
     return (
       <Fragment>
-        <Navbar tagline={'Neighborhood Map'} />
+        <Navbar
+          tagline={'Neighborhood Map'}
+          onHandleToggle={this.toggleSideBar}
+        />
+        <SideBar pointers={this.state.markers} />
         <Map />
       </Fragment>
     );
