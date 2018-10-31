@@ -69,21 +69,10 @@ class App extends Component {
     });
   };
 
-  toggleSideBar = () => {
-    /* this method will display and hide the sidebar 
-    when the hamburger icon on the navbar is clicked*/
-    this.setState({
-      toggle: !this.state.toggle,
-    });
-  };
-
   render() {
     return (
       <Fragment>
-        <Navbar
-          tagline={'Neighborhood Map'}
-          onHandleToggle={this.toggleSideBar}
-        />
+        <Navbar tagline={'Neighborhood Map'} />
         <SideBar pointers={this.state.markers} />
         <Map />
       </Fragment>
