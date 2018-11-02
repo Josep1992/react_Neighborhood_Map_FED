@@ -10,7 +10,6 @@ class App extends Component {
   state = {
     apiKey: 'AIzaSyACQXnOUxt3FifE9oexqADC8OMmB74ms_Q',
     markers: pointers,
-    toggle: false,
   };
   componentDidMount = () => {
     this.initializeWindow()
@@ -66,6 +65,7 @@ class App extends Component {
       });
 
       marker.addListener('click', () => infoWindow.open(map, marker));
+      // marker.setAnimation(window.google.maps.Animation.BOUNCE);
     });
   };
 

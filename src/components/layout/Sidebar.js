@@ -30,6 +30,10 @@ class Sidebar extends Component {
     query: '',
   };
 
+  componentDidMount = () => {
+    //
+  };
+
   handleChange = (query) => {
     this.setState({ query });
   };
@@ -59,19 +63,21 @@ class Sidebar extends Component {
           left: 0,
           backgroundColor: '#fff',
           padding: '0.65em',
-          opacity: 0.8,
+          opacity: 0.9,
         }}>
         <TextField
           onChange={(e) => this.handleChange(e.target.value)}
           classes={styles.textField}
           placeholder="Filter Pointers"
+          style={{ width: '100%', margin: '1em 0 1em 0' }}
         />
         <br />
 
         <List>
           {filteredMarkers.map((item, index) => (
             <div key={index}>
-              <ListItem>
+              <ListItem style={{ marginBottom: '10px' }}>
+                <br />
                 <Avatar>
                   <FontAwesomeIcon icon={faMapMarkedAlt} />
                 </Avatar>
