@@ -1,8 +1,8 @@
 const fourSquares = {
   client_id: 'XNSAG0PISJ411W3EJODIW51APQE2EXZ2RASS5DLQZDIAMKLV',
   secret: 'Y4PC0YTCUZ0EMHUVPDPEYZBRYIYKGFAZTCF4EWHV2E3M3WHR',
-  query: 'beaches',
-  limit: 8,
+  query: 'restaurants',
+  limit: 10,
   near: 'San Juan',
 };
 
