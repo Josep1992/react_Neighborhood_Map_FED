@@ -47,12 +47,7 @@ const Sidebar = ({ pointers, onHandleQuery }) => (
             <Avatar>
               <FontAwesomeIcon icon={faMapMarkedAlt} />
             </Avatar>
-            <ListItemText
-              primary={`${pointer.venue.name}`}
-              secondary={`Latitude: ${pointer.venue.location.lat}, Longitude: ${
-                pointer.venue.location.lng
-              }`}
-            />
+            <ListItemText primary={`${pointer.venue.name}`} />
           </ListItem>
           <Divider />
         </div>
