@@ -6,14 +6,13 @@ import Map from './components/google-maps/Map';
 
 // npm packages
 import axios from 'axios';
-import escapeRegExp from 'escape-string-regexp';
+// import escapeRegExp from 'escape-string-regexp';
 
 // Style
 import './App.scss';
 
 // Markers data
 import { endpoint } from '../src/utilities/foursquaresApi';
-
 //InfoWindow constructor
 import { infoWindowContent } from '../src/utilities/infoWindow';
 
@@ -81,7 +80,7 @@ class App extends Component {
     let map;
     map = new window.google.maps.Map(document.getElementById('map'), {
       center: { lat: 18.4655394, lng: -66.1057355 },
-      zoom: 11,
+      zoom: 16,
     });
 
     //Iterate over the pointers array to create the markers
@@ -99,7 +98,9 @@ class App extends Component {
         pointer.venue.name,
         pointer.venue.location.city,
         pointer.venue.location.postalCode,
-        pointer.venue.location.state,
+        pointer.venue.location.address,
+        pointer.venue.location.lat,
+        pointer.venue.location.lng,
       );
 
       const infoWindow = new window.google.maps.InfoWindow({
