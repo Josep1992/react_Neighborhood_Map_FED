@@ -14,6 +14,9 @@ import './App.scss';
 // Markers data
 import { endpoint } from '../src/utilities/foursquaresApi';
 
+//InfoWindow constructor
+import { infoWindowContent } from '../src/utilities/infoWindow';
+
 class App extends Component {
   state = {
     apiKey: 'AIzaSyACQXnOUxt3FifE9oexqADC8OMmB74ms_Q',
@@ -22,10 +25,13 @@ class App extends Component {
   };
 
   componentDidMount = () => {
-    this.getVenuesData(); //Fetching data to get the venues from foursquare api
-    this.initializeWindow() //Initializing the window object with the google maps api
-      .then((google) => console.log(`${google}`))
-      .catch((error) => console.log({ error }));
+    this.getVenuesData() //Fetching data to get the venues from foursquare api
+      .then((msg) => {
+        console.log(msg);
+        this.initializeWindow() //Initializing the window object with the google maps api
+          .then((google) => console.log(`${google}`))
+          .catch((error) => console.log({ error }));
+      });
   };
 
   getVenuesData = async () => {
@@ -36,6 +42,8 @@ class App extends Component {
       this.setState({
         fourSquaresVenues: [...venues.data.response.groups[0].items],
       });
+
+      return 'Venue Data fetched';
     } catch (error) {
       console.error(error);
     }
@@ -84,12 +92,18 @@ class App extends Component {
           lng: pointer.venue.location.lng,
         },
         map: map,
-        title: pointer.venue.name,
         animation: window.google.maps.Animation.DROP,
       });
 
+      const contentString = infoWindowContent(
+        pointer.venue.name,
+        pointer.venue.location.city,
+        pointer.venue.location.postalCode,
+        pointer.venue.location.state,
+      );
+
       const infoWindow = new window.google.maps.InfoWindow({
-        content: pointer.venue.name,
+        content: contentString,
       });
 
       marker.addListener('mouseover', () => {
