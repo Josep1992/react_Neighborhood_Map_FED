@@ -73,7 +73,7 @@ class App extends Component {
     let map;
     map = new window.google.maps.Map(document.getElementById('map'), {
       center: { lat: 18.4655394, lng: -66.1057355 },
-      zoom: 10.7,
+      zoom: 11,
     });
 
     //Iterate over the pointers array to create the markers
