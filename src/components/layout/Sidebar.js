@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TextField from '@material-ui/core/TextField';
 import List from '@material-ui/core/List';
@@ -7,13 +7,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 import { faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
-import escapeRegExp from 'escape-string-regexp';
 
 const styles = () => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-  },
   textField: {
     margin: '0 auto',
   },
@@ -25,74 +20,36 @@ const styles = () => ({
   },
 });
 
-class Sidebar extends Component {
-  state = {
-    query: '',
-  };
+const Sidebar = ({ pointers, onHandleQuery }) => (
+  <div className="sidebar" role="navigation">
+    <TextField
+      onChange={(e) => onHandleQuery(e.target.value)}
+      classes={styles.textField}
+      placeholder="Filter Pointers"
+      style={{ width: '100%', margin: '1em 0 1em 0' }}
+    />
+    <br />
 
-  componentDidMount = () => {
-    //
-  };
-
-  handleChange = (query) => {
-    this.setState({ query });
-  };
-
-  render() {
-    const { query } = this.state;
-    let filteredMarkers;
-
-    if (query) {
-      const match = new RegExp(escapeRegExp(query), 'i');
-      filteredMarkers = this.props.pointers.filter((marker) =>
-        match.test(marker.title),
-      );
-    } else {
-      filteredMarkers = this.props.pointers;
-    }
-
-    return (
-      <div
-        className={styles.container}
-        style={{
-          width: 300,
-          height: '93.5vh',
-          zIndex: 1,
-          position: 'absolute',
-          top: '64px',
-          left: 0,
-          backgroundColor: '#fff',
-          padding: '0.65em',
-          opacity: 0.9,
-        }}>
-        <TextField
-          onChange={(e) => this.handleChange(e.target.value)}
-          classes={styles.textField}
-          placeholder="Filter Pointers"
-          style={{ width: '100%', margin: '1em 0 1em 0' }}
-        />
-        <br />
-
-        <List>
-          {filteredMarkers.map((item, index) => (
-            <div key={index}>
-              <ListItem style={{ marginBottom: '10px' }}>
-                <br />
-                <Avatar>
-                  <FontAwesomeIcon icon={faMapMarkedAlt} />
-                </Avatar>
-                <ListItemText
-                  primary={`${item.title}`}
-                  secondary={`Latitude: ${item.lat} Longitude: ${item.lng}`}
-                />
-              </ListItem>
-              <Divider />
-            </div>
-          ))}
-        </List>
-      </div>
-    );
-  }
-}
+    <List>
+      {pointers.map((pointer, index) => (
+        <div key={index}>
+          <ListItem style={{ marginBottom: '10px' }}>
+            <br />
+            <Avatar>
+              <FontAwesomeIcon icon={faMapMarkedAlt} />
+            </Avatar>
+            <ListItemText
+              primary={`${pointer.venue.name}`}
+              secondary={`Latitude: ${pointer.venue.location.lat}, Longitude: ${
+                pointer.venue.location.lng
+              }`}
+            />
+          </ListItem>
+          <Divider />
+        </div>
+      ))}
+    </List>
+  </div>
+);
 
 export default Sidebar;

@@ -1,5 +1,4 @@
 import React from 'react';
-// import Marker from './Marker';
 
 const Map = () => {
   return (

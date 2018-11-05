@@ -1,26 +1,51 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+// Components
 import Navbar from './components/layout/Navbar';
 import SideBar from './components/layout/Sidebar';
 import Map from './components/google-maps/Map';
+
+// npm packages
+import axios from 'axios';
+import escapeRegExp from 'escape-string-regexp';
+
+// Style
 import './App.scss';
 
-import { pointers } from '../src/utilities/pointers';
+// Markers data
+import { endpoint } from '../src/utilities/foursquaresApi';
 
 class App extends Component {
   state = {
     apiKey: 'AIzaSyACQXnOUxt3FifE9oexqADC8OMmB74ms_Q',
-    markers: pointers,
+    query: '',
+    fourSquaresVenues: [],
   };
+
   componentDidMount = () => {
-    this.initializeWindow()
+    this.getVenuesData(); //Fetching data to get the venues from foursquare api
+    this.initializeWindow() //Initializing the window object with the google maps api
       .then((google) => console.log(`${google}`))
       .catch((error) => console.log({ error }));
   };
 
+  getVenuesData = async () => {
+    try {
+      const request = axios.get(endpoint);
+      const venues = await request;
+
+      this.setState({
+        fourSquaresVenues: [...venues.data.response.groups[0].items],
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   injectGoogleMapsScript = () => {
-    const { apiKey } = this.state;
     const body = document.body;
-    const googleEndPoint = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+    const googleEndPoint = `https://maps.googleapis.com/maps/api/js?key=${
+      this.state.apiKey
+    }&callback=initMap`;
 
     let googleMapScript = document.createElement('script');
     googleMapScript.src = googleEndPoint;
@@ -47,35 +72,56 @@ class App extends Component {
   initMap = () => {
     let map;
     map = new window.google.maps.Map(document.getElementById('map'), {
-      center: { lat: 18.4065425, lng: -66.59379249999999 },
-      zoom: 11,
+      center: { lat: 18.4655394, lng: -66.1057355 },
+      zoom: 10.7,
     });
 
     //Iterate over the pointers array to create the markers
-    this.state.markers.forEach((pointer) => {
+    this.state.fourSquaresVenues.forEach((pointer) => {
       let marker = new window.google.maps.Marker({
-        position: { lat: pointer.lat, lng: pointer.lng },
+        position: {
+          lat: pointer.venue.location.lat,
+          lng: pointer.venue.location.lng,
+        },
         map: map,
-        title: pointer.title,
+        title: pointer.venue.name,
         animation: window.google.maps.Animation.DROP,
       });
 
       const infoWindow = new window.google.maps.InfoWindow({
-        content: pointer.title,
+        content: pointer.venue.name,
       });
 
-      marker.addListener('click', () => infoWindow.open(map, marker));
-      // marker.setAnimation(window.google.maps.Animation.BOUNCE);
+      marker.addListener('mouseover', () => {
+        infoWindow.open(map, marker);
+        marker.setAnimation(window.google.maps.Animation.BOUNCE);
+      });
+
+      marker.addListener('mouseout', () => {
+        infoWindow.close(map, marker);
+        marker.setAnimation(null);
+      });
     });
   };
 
+  handleChange = (query) => {
+    this.setState({ query });
+  };
+
   render() {
+    const { fourSquaresVenues, query } = this.state;
     return (
-      <Fragment>
+      <>
         <Navbar tagline={'Neighborhood Map'} />
-        <SideBar pointers={this.state.markers} />
-        <Map />
-      </Fragment>
+        <div className="container">
+          <SideBar
+            pointers={fourSquaresVenues}
+            onHandleQuery={this.handleChange}
+            queryResult={query}
+          />
+          <Map />
+        </div>
+      </>
     );
   }
 }

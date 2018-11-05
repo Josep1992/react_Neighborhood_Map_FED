@@ -11,7 +11,7 @@ export const pointers = [
     title: 'Arecibo Light House',
   },
   {
-    lat: 18.3592186,
+    lat: 18.4779518,
     lng: -66.5092752,
     title: 'Cueva de las Golondrinas',
   },
@@ -24,5 +24,10 @@ export const pointers = [
     lat: 18.4838933,
     lng: -66.5257734,
     title: 'Playa Esperanza',
+  },
+  {
+    lat: 18.4727086,
+    lng: -66.485429,
+    title: 'Mar Chiquita Cove',
   },
 ];
