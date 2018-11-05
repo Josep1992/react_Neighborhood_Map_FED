@@ -1,5 +1,6 @@
 export const infoWindowContent = (
-  name,
+  title,
+  subtitle,
   city = '<i class="fas fa-skull-crossbones"></i>',
   postalCode = '<i class="fas fa-skull-crossbones"></i>',
   address = '<i class="fas fa-skull-crossbones"></i>',
@@ -9,7 +10,8 @@ export const infoWindowContent = (
   const content = `
   <div class='infoWindow-wrapper'>
     <header class='infoWindow-header'>
-      <h1><strong>${name}</strong></h1>
+      <h1><strong>${title}</strong></h1>
+      <h2><strong>${subtitle}</strong></h2>
     </header>
     <section class='infoWindow-content'>
       <ul class='infoWindow-list'>

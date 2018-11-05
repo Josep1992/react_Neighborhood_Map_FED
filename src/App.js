@@ -96,6 +96,7 @@ class App extends Component {
 
       const contentString = infoWindowContent(
         pointer.venue.name,
+        pointer.venue.categories[0].name,
         pointer.venue.location.city,
         pointer.venue.location.postalCode,
         pointer.venue.location.address,

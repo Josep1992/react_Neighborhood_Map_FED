@@ -11,7 +11,6 @@ import Divider from '@material-ui/core/Divider';
 // Font awesome
 import { faFoursquare, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMapMarkedAlt } from '@fortawesome/free-solid-svg-icons';
 
 const styles = () => ({
   textField: {
@@ -45,7 +44,15 @@ const Sidebar = ({ pointers, onHandleQuery }) => (
           <ListItem style={{ marginBottom: '10px' }}>
             <br />
             <Avatar>
-              <FontAwesomeIcon icon={faMapMarkedAlt} />
+              {/* venue icons can go here */}
+              <img
+                src={
+                  pointer.venue.categories[0].icon.prefix +
+                  32 +
+                  pointer.venue.categories[0].icon.suffix
+                }
+                alt={pointer.venue.categories[0].name}
+              />
             </Avatar>
             <ListItemText primary={`${pointer.venue.name}`} />
           </ListItem>
