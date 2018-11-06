@@ -6,7 +6,7 @@ import Map from './components/google-maps/Map';
 
 // npm packages
 import axios from 'axios';
-// import escapeRegExp from 'escape-string-regexp';
+import escapeRegExp from 'escape-string-regexp';
 
 // Style
 import './App.scss';
@@ -21,6 +21,7 @@ class App extends Component {
     apiKey: 'AIzaSyACQXnOUxt3FifE9oexqADC8OMmB74ms_Q',
     query: '',
     fourSquaresVenues: [],
+    markers: [],
   };
 
   componentDidMount = () => {
@@ -84,13 +85,14 @@ class App extends Component {
     });
 
     //Iterate over the pointers array to create the markers
-    this.state.fourSquaresVenues.forEach((pointer) => {
+    this.state.fourSquaresVenues.map((pointer) => {
       let marker = new window.google.maps.Marker({
         position: {
           lat: pointer.venue.location.lat,
           lng: pointer.venue.location.lng,
         },
         map: map,
+        id: pointer.venue.id,
         animation: window.google.maps.Animation.DROP,
       });
 
@@ -117,12 +119,30 @@ class App extends Component {
         infoWindow.close(map, marker);
         marker.setAnimation(null);
       });
+
+      // return this.state.markers.push(marker);
+      return this.setState(() => {
+        this.state.markers.push(marker);
+      });
     });
   };
 
   handleChange = (query) => {
     this.setState({ query });
+    // this.filterVenuesByQuery(query);
   };
+
+  // filterVenuesByQuery = (query) => {
+  //   const match = new RegExp(escapeRegExp(query.trim()), 'i');
+
+  //   this.setState(() => {
+  //     this.state.fourSquaresVenues.filter((v) => match.test(v.venue.name));
+  //   });
+
+  //   console.log(
+  //     this.state.fourSquaresVenues.filter((v) => match.test(v.venue.name)),
+  //   );
+  // };
 
   render() {
     const { fourSquaresVenues, query } = this.state;
@@ -131,8 +151,9 @@ class App extends Component {
         <Navbar tagline={'Neighborhood Map'} />
         <div className="container">
           <SideBar
-            pointers={fourSquaresVenues}
+            venues={fourSquaresVenues}
             onHandleQuery={this.handleChange}
+            onFilterVenuesByQuery={this.filterVenuesByQuery}
             queryResult={query}
           />
           <Map />

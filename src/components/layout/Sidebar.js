@@ -24,7 +24,7 @@ const styles = () => ({
   },
 });
 
-const Sidebar = ({ pointers, onHandleQuery }) => (
+const Sidebar = ({ venues, onHandleQuery }) => (
   <div className="sidebar" role="navigation">
     <p>
       Powered by <FontAwesomeIcon icon={faFoursquare} size={'1x'} /> and{' '}
@@ -39,22 +39,21 @@ const Sidebar = ({ pointers, onHandleQuery }) => (
     <br />
 
     <List>
-      {pointers.map((pointer, index) => (
+      {venues.map((venue, index) => (
         <div key={index}>
-          <ListItem style={{ marginBottom: '10px' }}>
+          <ListItem style={{ marginBottom: '10px' }} id={venue.venue.id}>
             <br />
             <Avatar>
-              {/* venue icons can go here */}
               <img
                 src={
-                  pointer.venue.categories[0].icon.prefix +
+                  venue.venue.categories[0].icon.prefix +
                   32 +
-                  pointer.venue.categories[0].icon.suffix
+                  venue.venue.categories[0].icon.suffix
                 }
-                alt={pointer.venue.categories[0].name}
+                alt={venue.venue.categories[0].name}
               />
             </Avatar>
-            <ListItemText primary={`${pointer.venue.name}`} />
+            <ListItemText primary={`${venue.venue.name}`} />
           </ListItem>
           <Divider />
         </div>
