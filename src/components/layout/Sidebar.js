@@ -12,6 +12,10 @@ import Divider from '@material-ui/core/Divider';
 import { faFoursquare, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+// Info Window constructor from Utilities
+import { infoWindowContent } from '../../utilities/infoWindow';
+
+
 const styles = () => ({
   textField: {
     margin: '0 auto',
@@ -26,13 +30,37 @@ const styles = () => ({
 
 class Sidebar extends Component {
   checkIfIdMatches = (e) => {
-    const { markers, fourSquaresVenues, updateState } = this.props;
+    const { markers, fourSquaresVenues,google,map} = this.props;
 
-    fourSquaresVenues.filter((v) => {
+    
+    fourSquaresVenues.forEach((v) => {
       if (v.venue.id === e.target.parentElement.parentElement.id) {
+        const contentString = infoWindowContent( 
+          v.venue.name,
+          v.venue.categories[0].name,
+          v.venue.location.city,
+          v.venue.location.postalCode,
+          v.venue.location.address,
+          v.venue.location.lat,
+          v.venue.location.lng,
+        );
+  
+        const infoWindow = new google.InfoWindow({
+          content: contentString,
+        }); 
+
+        
         markers.find(marker => {
-          if(marker.id === e.target.parentElement.parentElement.id)
-          updateState({ markers: marker });
+          if(marker.id === e.target.parentElement.parentElement.id){
+            marker.setAnimation(google.Animation.BOUNCE);
+            infoWindow.open(map,marker);
+          }else{
+            marker.setAnimation(null);
+            const venueItem = e.target.parentElement.parentElement;
+            venueItem.addEventListener('mouseleave',() => infoWindow.close(map,marker));
+            marker.setAnimation(null);
+          }
+          
         })
       }
     });
@@ -61,7 +89,7 @@ class Sidebar extends Component {
               <ListItem
                 className="sidebar-item"
                 id={venue.venue.id}
-                onClick={(e) => this.checkIfIdMatches(e)}>
+                onMouseOver={(e) => this.checkIfIdMatches(e)}>
                 <br />
                 <Avatar className="sidebar-avatar">
                   <img

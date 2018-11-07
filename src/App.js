@@ -21,6 +21,8 @@ class App extends Component {
     query: '',
     fourSquaresVenues: [],
     markers: [],
+    google:{},
+    map:{},
     updateState: (obj) => {
       this.setState(obj);
     },
@@ -121,6 +123,12 @@ class App extends Component {
         marker.setAnimation(null);
       });
 
+    // Adding the google maps object to state
+      this.setState(
+        {
+          google:window.google.maps,
+          map
+        });
       // return this.state.markers.push(marker);
       return this.setState(() => {
         this.state.markers.push(marker);
