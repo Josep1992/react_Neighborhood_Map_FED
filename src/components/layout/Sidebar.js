@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 //React Material UI
 import TextField from '@material-ui/core/TextField';
@@ -24,42 +24,64 @@ const styles = () => ({
   },
 });
 
-const Sidebar = ({ venues, onHandleQuery }) => (
-  <div className="sidebar" role="navigation">
-    <p>
-      Powered by <FontAwesomeIcon icon={faFoursquare} size={'1x'} /> and{' '}
-      <FontAwesomeIcon icon={faGoogle} size={'1x'} />
-    </p>
-    <TextField
-      onChange={(e) => onHandleQuery(e.target.value)}
-      classes={styles.textField}
-      placeholder="Filter Pointers"
-      style={{ width: '100%', margin: '1em 0 1em 0' }}
-    />
-    <br />
+class Sidebar extends Component {
+  checkIfIdMatches = (e) => {
+    const { markers, fourSquaresVenues, updateState } = this.props;
 
-    <List>
-      {venues.map((venue, index) => (
-        <div key={index}>
-          <ListItem style={{ marginBottom: '10px' }} id={venue.venue.id}>
-            <br />
-            <Avatar>
-              <img
-                src={
-                  venue.venue.categories[0].icon.prefix +
-                  32 +
-                  venue.venue.categories[0].icon.suffix
-                }
-                alt={venue.venue.categories[0].name}
-              />
-            </Avatar>
-            <ListItemText primary={`${venue.venue.name}`} />
-          </ListItem>
-          <Divider />
-        </div>
-      ))}
-    </List>
-  </div>
-);
+    fourSquaresVenues.filter((v) => {
+      if (v.venue.id === e.target.parentElement.parentElement.id) {
+        markers.find(marker => {
+          if(marker.id === e.target.parentElement.parentElement.id)
+          updateState({ markers: marker });
+        })
+      }
+    });
+
+  };
+
+  render() {
+    const { fourSquaresVenues, onHandleQuery } = this.props;
+    return (
+      <div className="sidebar" role="navigation">
+        <p>
+          Powered by <FontAwesomeIcon icon={faFoursquare} size={'1x'} /> and{' '}
+          <FontAwesomeIcon icon={faGoogle} size={'1x'} />
+        </p>
+        <TextField
+          onChange={(e) => onHandleQuery(e)}
+          classes={styles.textField}
+          placeholder="Filter Pointers"
+          style={{ width: '100%', margin: '1em 0 1em 0' }}
+        />
+        <br />
+
+        <List className="sidebar-list">
+          {fourSquaresVenues.map((venue, index) => (
+            <div key={index}>
+              <ListItem
+                className="sidebar-item"
+                id={venue.venue.id}
+                onClick={(e) => this.checkIfIdMatches(e)}>
+                <br />
+                <Avatar className="sidebar-avatar">
+                  <img
+                    src={
+                      venue.venue.categories[0].icon.prefix +
+                      32 +
+                      venue.venue.categories[0].icon.suffix
+                    }
+                    alt={venue.venue.categories[0].name}
+                  />
+                </Avatar>
+                <ListItemText primary={`${venue.venue.name}`} />
+              </ListItem>
+              <Divider />
+            </div>
+          ))}
+        </List>
+      </div>
+    );
+  }
+}
 
 export default Sidebar;

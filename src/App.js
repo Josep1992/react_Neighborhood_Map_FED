@@ -18,10 +18,12 @@ import { infoWindowContent } from '../src/utilities/infoWindow';
 
 class App extends Component {
   state = {
-    apiKey: 'AIzaSyACQXnOUxt3FifE9oexqADC8OMmB74ms_Q',
     query: '',
     fourSquaresVenues: [],
     markers: [],
+    updateState: (obj) => {
+      this.setState(obj);
+    },
   };
 
   componentDidMount = () => {
@@ -50,10 +52,9 @@ class App extends Component {
   };
 
   injectGoogleMapsScript = () => {
+    const apiKey = 'AIzaSyACQXnOUxt3FifE9oexqADC8OMmB74ms_Q';
     const body = document.body;
-    const googleEndPoint = `https://maps.googleapis.com/maps/api/js?key=${
-      this.state.apiKey
-    }&callback=initMap`;
+    const googleEndPoint = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
 
     let googleMapScript = document.createElement('script');
     googleMapScript.src = googleEndPoint;
@@ -145,17 +146,11 @@ class App extends Component {
   // };
 
   render() {
-    const { fourSquaresVenues, query } = this.state;
     return (
       <>
         <Navbar tagline={'Neighborhood Map'} />
         <div className="container">
-          <SideBar
-            venues={fourSquaresVenues}
-            onHandleQuery={this.handleChange}
-            onFilterVenuesByQuery={this.filterVenuesByQuery}
-            queryResult={query}
-          />
+          <SideBar {...this.state} onHandleQuery={this.handleChange} />
           <Map />
         </div>
       </>
