@@ -62,7 +62,7 @@ class Sidebar extends Component {
             );
           }
 
-          if (e.target != venueItem || venueItem.children) {
+          if (e.target !== venueItem || venueItem.children) {
             marker.setAnimation(null);
           }
         });
