@@ -1,6 +1,9 @@
 .container {
   display: flex;
   flex-direction: row;
+  @media screen and (max-width: 770px) {
+    flex-direction: column;
+  }
 }
 
 main {
@@ -20,13 +23,20 @@ main {
   background-color: #fff;
   padding: 1em;
   overflow: auto;
+  @media screen and (max-width: 770px) {
+    height: 400px;
+    width: 100%;
+    overflow-x: hidden;
+    padding: 2em;
+  }
   .sidebar-list {
+    padding: 10px;
     //
     .sidebar-item {
       transition: all;
       margin-bottom: 10px;
       &:hover {
-        transform: scale(1.2) rotate(2deg);
+        transform: scale(1.1) rotate(2deg);
         cursor: pointer;
       }
       .sidebar-avatar {

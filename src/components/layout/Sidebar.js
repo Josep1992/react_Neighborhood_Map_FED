@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { infoWindowContent } from '../../utilities/infoWindow';
 
 //Npm packages
-import escapeRegExp from 'escape-string-regexp';
+// import escapeRegExp from 'escape-string-regexp';
 
 const styles = () => ({
   textField: {
@@ -79,6 +79,22 @@ class Sidebar extends Component {
     }
     return this.props.fourSquaresVenues;
   };
+
+  // showOrHideMarkers = () => {
+  //   const sideBarVenues = Array.from(
+  //     document.querySelectorAll('.sidebar-item'),
+  //   );
+
+  //   sideBarVenues.map((venue) => {
+  //     this.props.markers.find((marker) => {
+  //       if (marker.id === venue.id) {
+  //         marker.setVisible(true);
+  //       } else {
+  //         marker.setVisible(false);
+  //       }
+  //     });
+  //   });
+  // };
 
   render() {
     const { onHandleQuery, query } = this.props;
