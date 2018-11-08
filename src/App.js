@@ -4,9 +4,8 @@ import Navbar from './components/layout/Navbar';
 import SideBar from './components/layout/Sidebar';
 import Map from './components/google-maps/Map';
 
-// npm packages
+//Npm packages
 import axios from 'axios';
-import escapeRegExp from 'escape-string-regexp';
 
 // Style
 import './App.scss';
@@ -21,11 +20,8 @@ class App extends Component {
     query: '',
     fourSquaresVenues: [],
     markers: [],
-    google:{},
-    map:{},
-    updateState: (obj) => {
-      this.setState(obj);
-    },
+    google: {},
+    map: {},
   };
 
   componentDidMount = () => {
@@ -123,12 +119,11 @@ class App extends Component {
         marker.setAnimation(null);
       });
 
-    // Adding the google maps object to state
-      this.setState(
-        {
-          google:window.google.maps,
-          map
-        });
+      // Adding the google maps object to state
+      this.setState({
+        google: window.google.maps,
+        map,
+      });
       // return this.state.markers.push(marker);
       return this.setState(() => {
         this.state.markers.push(marker);
@@ -138,20 +133,8 @@ class App extends Component {
 
   handleChange = (query) => {
     this.setState({ query });
-    // this.filterVenuesByQuery(query);
+    return query;
   };
-
-  // filterVenuesByQuery = (query) => {
-  //   const match = new RegExp(escapeRegExp(query.trim()), 'i');
-
-  //   this.setState(() => {
-  //     this.state.fourSquaresVenues.filter((v) => match.test(v.venue.name));
-  //   });
-
-  //   console.log(
-  //     this.state.fourSquaresVenues.filter((v) => match.test(v.venue.name)),
-  //   );
-  // };
 
   render() {
     return (

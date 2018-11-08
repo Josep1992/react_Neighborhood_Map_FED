@@ -10,8 +10,8 @@ export const infoWindowContent = (
   const content = `
   <div class='infoWindow-wrapper'>
     <header class='infoWindow-header'>
-      <h1><strong>${title}</strong></h1>
-      <h2><strong>${subtitle}</strong></h2>
+      <h3><strong>${title}</strong></h3>
+      <h4><strong>${subtitle}</strong></h4>
     </header>
     <section class='infoWindow-content'>
       <ul class='infoWindow-list'>

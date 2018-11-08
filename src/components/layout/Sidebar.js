@@ -15,6 +15,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // Info Window constructor from Utilities
 import { infoWindowContent } from '../../utilities/infoWindow';
 
+//Npm packages
+import escapeRegExp from 'escape-string-regexp';
 
 const styles = () => ({
   textField: {
@@ -30,12 +32,12 @@ const styles = () => ({
 
 class Sidebar extends Component {
   checkIfIdMatches = (e) => {
-    const { markers, fourSquaresVenues,google,map} = this.props;
+    const { markers, fourSquaresVenues, google, map } = this.props;
+    const venueItem = e.target.parentElement.parentElement;
 
-    
     fourSquaresVenues.forEach((v) => {
-      if (v.venue.id === e.target.parentElement.parentElement.id) {
-        const contentString = infoWindowContent( 
+      if (v.venue.id === venueItem.id) {
+        const contentString = infoWindowContent(
           v.venue.name,
           v.venue.categories[0].name,
           v.venue.location.city,
@@ -44,31 +46,40 @@ class Sidebar extends Component {
           v.venue.location.lat,
           v.venue.location.lng,
         );
-  
+
         const infoWindow = new google.InfoWindow({
           content: contentString,
-        }); 
+        });
 
-        
-        markers.find(marker => {
-          if(marker.id === e.target.parentElement.parentElement.id){
+        markers.find((marker) => {
+          if (marker.id === venueItem.id) {
             marker.setAnimation(google.Animation.BOUNCE);
-            infoWindow.open(map,marker);
-          }else{
+            infoWindow.open(map, marker);
+          } else {
             marker.setAnimation(null);
-            const venueItem = e.target.parentElement.parentElement;
-            venueItem.addEventListener('mouseleave',() => infoWindow.close(map,marker));
-            marker.setAnimation(null);
+            venueItem.addEventListener(
+              'mouseleave',
+              () => infoWindow.close(map, marker),
+              marker.setAnimation(null),
+            );
           }
-          
-        })
+        });
       }
     });
+  };
 
+  filterVenuesByQuery = (query) => {
+    if (query) {
+      const fourSquaresVenues = this.props.fourSquaresVenues.filter((v) =>
+        v.venue.name.toLowerCase().includes(this.props.query.toLowerCase()),
+      );
+      return fourSquaresVenues;
+    }
+    return this.props.fourSquaresVenues;
   };
 
   render() {
-    const { fourSquaresVenues, onHandleQuery } = this.props;
+    const { onHandleQuery, query } = this.props;
     return (
       <div className="sidebar" role="navigation">
         <p>
@@ -76,7 +87,7 @@ class Sidebar extends Component {
           <FontAwesomeIcon icon={faGoogle} size={'1x'} />
         </p>
         <TextField
-          onChange={(e) => onHandleQuery(e)}
+          onChange={(e) => onHandleQuery(e.target.value)}
           classes={styles.textField}
           placeholder="Filter Pointers"
           style={{ width: '100%', margin: '1em 0 1em 0' }}
@@ -84,7 +95,7 @@ class Sidebar extends Component {
         <br />
 
         <List className="sidebar-list">
-          {fourSquaresVenues.map((venue, index) => (
+          {this.filterVenuesByQuery(query).map((venue, index) => (
             <div key={index}>
               <ListItem
                 className="sidebar-item"
