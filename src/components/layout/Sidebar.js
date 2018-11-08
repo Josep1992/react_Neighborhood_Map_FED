@@ -57,11 +57,13 @@ class Sidebar extends Component {
             infoWindow.open(map, marker);
           } else {
             marker.setAnimation(null);
-            venueItem.addEventListener(
-              'mouseleave',
-              () => infoWindow.close(map, marker),
-              marker.setAnimation(null),
+            venueItem.addEventListener('mouseleave', () =>
+              infoWindow.close(map, marker),
             );
+          }
+
+          if (e.target != venueItem || venueItem.children) {
+            marker.setAnimation(null);
           }
         });
       }
