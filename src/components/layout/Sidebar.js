@@ -14,11 +14,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Info Window constructor from Utilities
 import { infoWindowContent } from '../../utilities/infoWindow';
-import { RegExp } from 'core-js';
-
-//Npm packages
-import escapeRegExp from 'escape-string-regexp';
-import { equal } from 'uri-js';
 
 const styles = () => ({
   textField: {
@@ -33,7 +28,7 @@ const styles = () => ({
 });
 
 class Sidebar extends Component {
-  checkIfIdMatches = (e) => {
+  showInfoOnHover = (e) => {
     const { markers, fourSquaresVenues, google, map } = this.props;
     const venueItem = e.target.parentElement.parentElement;
 
@@ -83,28 +78,30 @@ class Sidebar extends Component {
   };
 
   displayMarkersIfMatch = (query) => {
-    const { fourSquaresVenues, updateState, markers } = this.props;
+    const { fourSquaresVenues, updateState } = this.props;
 
     let match;
+    let markerMatch;
     fourSquaresVenues.map((v) => {
       if (v.venue.name.toLowerCase().includes(this.props.query)) {
         return (match = v.venue.id);
       }
     });
 
-    Array.from(markers)
+    const markers = Array.from(this.props.markers)
       .map((m) => m.id)
-      .map((m) => {
-        markers.find((marker) => {
-          if (marker.id === match) {
-            marker.setVisible(true);
-          } else {
-            marker.setVisible(false);
-          }
-        });
-      });
-  };
+      .filter((m) => (markerMatch = m === match));
 
+    this.props.markers.find((marker) => {
+      if (marker.id === markerMatch) {
+        marker.setVisible(true);
+      } else {
+        marker.setVisible(false);
+      }
+    });
+
+    // this.props.updateState({ markers });
+  };
   render() {
     const { onHandleQuery, query } = this.props;
     return (
@@ -129,7 +126,7 @@ class Sidebar extends Component {
               <ListItem
                 className="sidebar-item"
                 id={venue.venue.id}
-                onMouseOver={(e) => this.checkIfIdMatches(e)}>
+                onMouseOver={(e) => this.showInfoOnHover(e)}>
                 <br />
                 <Avatar className="sidebar-avatar">
                   <img
