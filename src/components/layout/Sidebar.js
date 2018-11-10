@@ -14,9 +14,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Info Window constructor from Utilities
 import { infoWindowContent } from '../../utilities/infoWindow';
+import { RegExp } from 'core-js';
 
 //Npm packages
-// import escapeRegExp from 'escape-string-regexp';
+import escapeRegExp from 'escape-string-regexp';
+import { equal } from 'uri-js';
 
 const styles = () => ({
   textField: {
@@ -80,21 +82,28 @@ class Sidebar extends Component {
     return this.props.fourSquaresVenues;
   };
 
-  // showOrHideMarkers = () => {
-  //   const sideBarVenues = Array.from(
-  //     document.querySelectorAll('.sidebar-item'),
-  //   );
+  displayMarkersIfMatch = (query) => {
+    const { fourSquaresVenues, updateState, markers } = this.props;
 
-  //   sideBarVenues.map((venue) => {
-  //     this.props.markers.find((marker) => {
-  //       if (marker.id === venue.id) {
-  //         marker.setVisible(true);
-  //       } else {
-  //         marker.setVisible(false);
-  //       }
-  //     });
-  //   });
-  // };
+    let match;
+    fourSquaresVenues.map((v) => {
+      if (v.venue.name.toLowerCase().includes(this.props.query)) {
+        return (match = v.venue.id);
+      }
+    });
+
+    Array.from(markers)
+      .map((m) => m.id)
+      .map((m) => {
+        markers.find((marker) => {
+          if (marker.id === match) {
+            marker.setVisible(true);
+          } else {
+            marker.setVisible(false);
+          }
+        });
+      });
+  };
 
   render() {
     const { onHandleQuery, query } = this.props;
@@ -105,7 +114,9 @@ class Sidebar extends Component {
           <FontAwesomeIcon icon={faGoogle} size={'1x'} />
         </p>
         <TextField
-          onChange={(e) => onHandleQuery(e.target.value)}
+          onChange={(e) =>
+            this.displayMarkersIfMatch(onHandleQuery(e.target.value))
+          }
           classes={styles.textField}
           placeholder="Filter Pointers"
           style={{ width: '100%', margin: '1em 0 1em 0' }}
