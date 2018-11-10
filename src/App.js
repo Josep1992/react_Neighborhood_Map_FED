@@ -86,6 +86,8 @@ class App extends Component {
       zoom: 16,
     });
 
+    let bounds = new window.google.maps.LatLngBounds();
+
     //Iterate over the pointers array to create the markers
     this.state.fourSquaresVenues.map((pointer) => {
       let marker = new window.google.maps.Marker({
@@ -97,6 +99,15 @@ class App extends Component {
         id: pointer.venue.id,
         animation: window.google.maps.Animation.DROP,
       });
+
+      // setting map bounds
+      let myLatLng = new window.google.maps.LatLng(
+        pointer.venue.location.lat,
+        pointer.venue.location.lng,
+      );
+
+      bounds.extend(myLatLng);
+      map.fitBounds(bounds);
 
       const contentString = infoWindowContent(
         pointer.venue.name,
