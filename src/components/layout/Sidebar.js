@@ -85,13 +85,9 @@ class Sidebar extends Component {
       const marker = Array.from(this.props.markers)
         .map((marker) => marker)
         .find((marker) => marker.id === v.venue.id);
-      if (match) {
-        marker.setVisible(true);
-      } else {
-        marker.setVisible(false);
-      }
 
-      return marker;
+      // If marker and query match,marker will be visible else not
+      match ? marker.setVisible(true) : marker.setVisible(false);
     });
   };
 
