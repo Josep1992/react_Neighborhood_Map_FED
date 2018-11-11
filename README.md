@@ -1,3 +1,67 @@
+> # React Neighborhood Map
+
+### This is the last project on the Udacity Front End Nanodegreee
+Project Rubric: [Here](https://review.udacity.com/#!/rubrics/1351/view)
+
+Interactive map that lets you filter between restaurant(This can be changed in the foursquaresApi.js File) locations in the Area of San Juan Puerto Rico
+
+> Libraries and Apis used on this project:
+
+* React Material Ui(Create the UI)
+* Axios (Data Fetching)
+* Node-Sass (Css Preprocessor)
+* Google Maps Api (Display the Map)
+* FourSquares( Get information for the map markers)
+
+To try out this project you must:
+* Create Account and get a google maps api key(The api key has to be changed on the App.js injectGoogleMapsScript Function)
+```
+injectGoogleMapsScript = () => {
+    const apiKey = 'AIzaSyACQXnOUxt3FifE9oexqADC8OMmB74ms_Q';
+    const body = document.body;
+    const googleEndPoint = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
+
+    let googleMapScript = document.createElement('script');
+    googleMapScript.src = googleEndPoint;
+    // The script must be async, it will be added to the dom once every elements is on the page.**
+    googleMapScript.async = true;
+    googleMapScript.defer = true;
+
+    // Adding the script before the ending body tag
+    body.insertAdjacentElement('beforeend', googleMapScript);
+  };
+```
+* Create Account at FourSquares and get client key and client secret(This can be modified in the foursquaresApi.js File)
+```
+const fourSquares = {
+  client_id: 'XNSAG0PISJ411W3EJODIW51APQE2EXZ2RASS5DLQZDIAMKLV',
+  secret: 'Y4PC0YTCUZ0EMHUVPDPEYZBRYIYKGFAZTCF4EWHV2E3M3WHR',
+  query: 'restaurants',
+  limit: 10,
+  near: 'San Juan',
+};
+```
+
+
+> ####  To Run the project:
+
+```
+Install dependencies:
+npm install or yarn install
+```
+```
+Run:
+npm start or yarn start
+```
+```
+Production Build:
+npm run build or yarn build
+```
+
+> For Offline Use:
+The project is bootstrapped with create-react-app it comes with a service worker but the project must be Build for it to work. The current state of this project is for development. For further information on create-react-app scroll to the last section of the README.file and there you will find a full description.
+
+
 <details>
 <summary>Create React App</summary>
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
