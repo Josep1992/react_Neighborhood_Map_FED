@@ -12,6 +12,7 @@ Interactive map that lets you filter between restaurant(This can be changed in t
 * Node-Sass (Css Preprocessor)
 * Google Maps Api (Display the Map)
 * FourSquares( Get information for the map markers)
+* FontAwesome( For The Icons)
 
 To try out this project you must:
 * Create Account and get a google maps api key(The api key has to be changed on the App.js injectGoogleMapsScript Function)
