@@ -79,7 +79,7 @@ class Sidebar extends Component {
   };
 
   displayMarkersIfMatch = (query) => {
-    const markers = this.filterVenuesByQuery(this.props.query).map((v) => {
+    const markers = this.filterVenuesByQuery(query).map((v) => {
       let match = v.venue.name.toLowerCase().includes(query);
 
       const marker = Array.from(this.props.markers)
