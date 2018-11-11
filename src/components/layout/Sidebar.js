@@ -79,7 +79,7 @@ class Sidebar extends Component {
   };
 
   displayMarkersIfMatch = (query) => {
-    const markers = this.filterVenuesByQuery(query).map((v) => {
+    this.filterVenuesByQuery(query).map((v) => {
       let match = v.venue.name.toLowerCase().includes(query);
 
       const marker = Array.from(this.props.markers)
@@ -107,7 +107,7 @@ class Sidebar extends Component {
 
         <List className="sidebar-list">
           {this.filterVenuesByQuery(query).map((venue, index) => (
-            <div key={index}>
+            <div key={index} tabIndex="0">
               <ListItem
                 className="sidebar-item"
                 id={venue.venue.id}
