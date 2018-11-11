@@ -72,44 +72,33 @@ class Sidebar extends Component {
       const fourSquaresVenues = this.props.fourSquaresVenues.filter((v) =>
         v.venue.name.toLowerCase().includes(this.props.query.toLowerCase()),
       );
+
       return fourSquaresVenues;
     }
     return this.props.fourSquaresVenues;
   };
 
   displayMarkersIfMatch = (query) => {
-    const { fourSquaresVenues, updateState } = this.props;
+    const markers = this.filterVenuesByQuery(this.props.query).map((v) => {
+      let match = v.venue.name.toLowerCase().includes(query);
 
-    let match;
-    let markerMatch;
-    fourSquaresVenues.map((v) => {
-      if (v.venue.name.toLowerCase().includes(this.props.query)) {
-        return (match = v.venue.id);
-      }
-    });
-
-    const markers = Array.from(this.props.markers)
-      .map((m) => m.id)
-      .filter((m) => (markerMatch = m === match));
-
-    this.props.markers.find((marker) => {
-      if (marker.id === markerMatch) {
+      const marker = Array.from(this.props.markers)
+        .map((marker) => marker)
+        .find((marker) => marker.id === v.venue.id);
+      if (match) {
         marker.setVisible(true);
       } else {
         marker.setVisible(false);
       }
-    });
 
-    // this.props.updateState({ markers });
+      return marker;
+    });
   };
+
   render() {
     const { onHandleQuery, query } = this.props;
     return (
       <div className="sidebar" role="navigation">
-        <p>
-          Powered by <FontAwesomeIcon icon={faFoursquare} size={'1x'} /> and{' '}
-          <FontAwesomeIcon icon={faGoogle} size={'1x'} />
-        </p>
         <TextField
           onChange={(e) =>
             this.displayMarkersIfMatch(onHandleQuery(e.target.value))
@@ -144,6 +133,10 @@ class Sidebar extends Component {
             </div>
           ))}
         </List>
+        <p style={{ textAlign: 'center' }}>
+          Powered by <FontAwesomeIcon icon={faFoursquare} size={'1x'} /> and{' '}
+          <FontAwesomeIcon icon={faGoogle} size={'1x'} />
+        </p>
       </div>
     );
   }
