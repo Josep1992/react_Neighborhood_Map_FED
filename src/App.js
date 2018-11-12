@@ -49,6 +49,9 @@ class App extends Component {
       return 'Venue Data fetched';
     } catch (error) {
       console.error(error);
+      alert(
+        'There has been an error getting the map data, Try Refreshing the page.More information on the developers console.',
+      );
     }
   };
 
@@ -59,6 +62,12 @@ class App extends Component {
 
     let googleMapScript = document.createElement('script');
     googleMapScript.src = googleEndPoint;
+    googleMapScript.onerror = () => {
+      alert(
+        'There has been an error loading the google maps script on the page,Try refreshing the window',
+      );
+      window.stop();
+    };
     // The script must be async, it will be added to the dom once every elements is on the page.**
     googleMapScript.async = true;
     googleMapScript.defer = true;
