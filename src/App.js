@@ -22,9 +22,6 @@ class App extends Component {
     markers: [],
     google: {},
     map: {},
-    updateState: (state) => {
-      this.setState(state);
-    },
   };
 
   componentDidMount = () => {
