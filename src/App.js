@@ -53,7 +53,7 @@ class App extends Component {
   };
 
   injectGoogleMapsScript = () => {
-    const apiKey = 'AIzaSyACQXnOUxt3FifE9oexqADC8OMmB74ms_Q';
+    const apiKey = // https://developers.google.com/maps/documentation/embed/get-api-key;
     const body = document.body;
     const googleEndPoint = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initMap`;
 
